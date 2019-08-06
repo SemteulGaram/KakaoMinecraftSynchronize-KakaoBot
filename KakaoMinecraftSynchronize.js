@@ -1,4 +1,4 @@
-const scriptName="KakaoMinecraftSyncronize.js";
+const scriptName="KakaoMinecraftSynchronize.js";
 
 const config = {
   // 채팅 공유를 사용할 채팅방 이름
