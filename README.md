@@ -3,3 +3,6 @@
 
 ## 주의사항
 - 스크립트 이름은 반드시 KakaoMinecraftSynchronize.js 로 해야함
+
+## How to use
+플레이스토어에서 https://play.google.com/store/apps/details?id=com.xfl.kakaotalkbot 설치
