@@ -1,11 +1,11 @@
 const scriptName="KakaoMinecraftSynchronize.js";
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.0.1';
 
 const config = {
   // 채팅 공유를 사용할 채팅방 이름
   targetChatRoom: '채팅방 이름 예제',
   // 업데이트를 받을 서버의 주소
-  updateServer: 'http://example.com:3000',
+  updateServer: 'http://example.com:7110',
   // 서버로 부터 새로 추가된 메시지를 확인할 간격 (밀리초)
   updateInterval: 500,
   // 서버와 연결되지 않은 상태에서 임시로 보관할 메시지의 수
@@ -185,7 +185,10 @@ function startUpdate () {
         return;
       }
 
-      const msgs = data.m.join('\n');
+      const msgs = data.m.join('\n')
+        .replace('&amp;', '&')
+        .replace('&lt;', '<')
+        .replace('&qt;', '>');
       Log.debug('KMS>Server>' + msgs);
       sendChat(msgs);
 
@@ -208,6 +211,7 @@ function sendQueueData () {
     local.sendQueue = [];
 
     const payload = encodeURIComponent(JSON.stringify(jsonObject));
+    Log.debug('KMS>Kakao>' + jsonObject.m.join('\n'));
     Utils.getWebText(local.mUrl + '?v=' + payload);
   } catch (err) {
     handleError(err);
@@ -227,8 +231,9 @@ function response (room, msg, sender, isGroupChat, replier, ImageDB, packageName
   if (local.serverConnected) {
     if (local.sendQueue.length !== 0) sendQueueData();
     try {
-      Log.error(Utils.getWebText(local.mUrl + '?v='
-        + encodeURIComponent(JSON.stringify({ m: [msg2] }))));
+      Log.debug('KMS>Kakao>' + msg2);
+      Utils.getWebText(local.mUrl + '?v='
+        + encodeURIComponent(JSON.stringify({ m: [msg2] })));
     } catch (err) {
       handleError(err);
     }
